@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest *)",
+      "Bash(npm --version)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/hazimq/.nvm/**)",
+      "Read(//Users/hazimq/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(brew --version)",
+      "Bash(/opt/homebrew/bin/brew --version)",
+      "Read(//Applications/**)",
+      "Bash(env)",
+      "Bash(xargs file *)",
+      "Bash(curl --version)",
+      "Bash(sw_vers)",
+      "Bash(curl -fsSL https://nodejs.org/dist/v22.14.0/node-v22.14.0-darwin-arm64.tar.gz -o /tmp/node.tar.gz)",
+      "Bash(mkdir -p /tmp/node-install)",
+      "Bash(tar -xzf /tmp/node.tar.gz -C /tmp/node-install --strip-components=1)",
+      "Bash(/tmp/node-install/bin/node --version)",
+      "Bash(/tmp/node-install/bin/npm --version)",
+      "Bash(export PATH=\"/tmp/node-install/bin:$PATH\")",
+      "Bash(npx --version)"
+    ]
+  }
+}
