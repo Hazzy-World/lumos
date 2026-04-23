@@ -73,7 +73,13 @@
       "Bash(command -v node)",
       "Bash(export PATH=\"/Users/hazimq/.antigravity/antigravity/bin:$HOME/.local/bin:$PATH\")",
       "Bash(/Users/hazimq/.antigravity/antigravity/bin/antigravity which *)",
-      "Read(//Library/Developer/CommandLineTools/usr/bin/**)"
+      "Read(//Library/Developer/CommandLineTools/usr/bin/**)",
+      "Bash(npx tsc *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(npm uninstall *)",
+      "Bash(echo \"EXIT:$?\")"
     ]
   }
 }
