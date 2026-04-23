@@ -52,10 +52,10 @@ export async function GET(request: NextRequest) {
     let parsed = creators.map(parseCreator)
 
     if (niche) {
-      parsed = parsed.filter((c) => c.niches.includes(niche))
+      parsed = parsed.filter((c: any) => c.niches.includes(niche))
     }
     if (platform) {
-      parsed = parsed.filter((c) => c.platforms.includes(platform))
+      parsed = parsed.filter((c: any) => c.platforms.includes(platform))
     }
 
     return NextResponse.json(parsed)
