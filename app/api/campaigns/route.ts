@@ -17,13 +17,13 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: "desc" },
     })
 
-    const parsed = campaigns.map((c) => ({
+    const parsed = campaigns.map((c: any) => ({
       ...c,
       objectives: JSON.parse(c.objectives || "[]"),
       targetCountries: JSON.parse(c.targetCountries || "[]"),
       targetNiches: JSON.parse(c.targetNiches || "[]"),
       platforms: JSON.parse(c.platforms || "[]"),
-      creators: c.creators.map((cc) => ({
+      creators: c.creators.map((cc: any) => ({
         ...cc,
         selectedDeliverables: JSON.parse(cc.selectedDeliverables || "[]"),
         creator: {

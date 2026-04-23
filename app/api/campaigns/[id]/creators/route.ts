@@ -12,7 +12,7 @@ export async function GET(
       include: { creator: true },
     })
 
-    return NextResponse.json(creators.map((cc) => ({
+    return NextResponse.json(creators.map((cc: any) => ({
       ...cc,
       selectedDeliverables: JSON.parse(cc.selectedDeliverables || "[]"),
       creator: {
