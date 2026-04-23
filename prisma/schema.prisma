@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model AgencySettings {
+  id               String   @id @default(cuid())
+  agencyName       String   @default("Lumos")
+  logoUrl          String?
+  primaryColor     String   @default("#C8102E")
+  secondaryColor   String   @default("#1A1A2E")
+  accentColor      String   @default("#F5A623")
+  tagline          String?
+  contactEmail     String?
+  website          String?
+  serviceMarkup    Float    @default(0.12)
+  agencyCommission Float    @default(0.20)
+  defaultCurrency  String   @default("USD")
+  updatedAt        DateTime @updatedAt
+}
+
+model Creator {
+  id             String   @id @default(cuid())
+  name           String
+  nameAr         String?
+  bio            String
+  profileImageUrl String
+  country        String
+  city           String?
+  language       String   @default("[]")
+  tier           String   @default("MICRO")
+  niches         String   @default("[]")
+  platforms      String   @default("[]")
+
+  // Instagram
+  instagramHandle      String?
+  instagramFollowers   Int?
+  instagramAvgLikes    Int?
+  instagramAvgComments Int?
+
+  // TikTok
+  tiktokHandle      String?
+  tiktokFollowers   Int?
+  tiktokAvgViews    Int?
+  tiktokAvgLikes    Int?
+  tiktokAvgComments Int?
+  tiktokAvgShares   Int?
+
+  // YouTube
+  youtubeHandle      String?
+  youtubeSubscribers Int?
+  youtubeAvgViews    Int?
+
+  // Twitter/X
+  twitterHandle      String?
+  twitterFollowers   Int?
+  twitterAvgLikes    Int?
+  twitterAvgRetweets Int?
+
+  // Snapchat
+  snapchatHandle    String?
+  snapchatFollowers Int?
+
+  // Kick
+  kickHandle    String?
+  kickFollowers Int?
+  kickAvgCCV    Int?
+
+  // Twitch
+  twitchHandle    String?
+  twitchFollowers Int?
+  twitchAvgCCV    Int?
+
+  // Audience data stored as JSON strings
+  audienceGenderSplit    String?
+  audienceAgeBreakdown   String?
+  audienceTopCountries   String?
+  audienceInterests      String  @default("[]")
+
+  // Rates (USD)
+  rateInstagramPost      Float?
+  rateInstagramStory     Float?
+  rateInstagramReel      Float?
+  rateTikTokVideo        Float?
+  rateYouTubeIntegration Float?
+  rateYouTubeShort       Float?
+  rateYouTubeDedicated   Float?
+  rateSnapchatStory      Float?
+  rateKickStream         Float?
+  rateTwitchStream       Float?
+  rateLiveEventAppearance Float?
+  rateUGCVideo           Float?
+  rateCustom             String?
+
+  // Agency relationship
+  exclusivityStatus   String  @default("NONE")
+  managedByFlamenzi   Boolean @default(false)
+  pastBrandCollabs    String  @default("[]")
+  blacklistedBrands   String  @default("[]")
+  notes               String?
+  tags                String  @default("[]")
+  isActive            Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaigns  CampaignCreator[]
+  research   CreatorResearch?
+}
+
+model Campaign {
+  id              String   @id @default(cuid())
+  name            String
+  brandName       String
+  brandWebsite    String?
+  brandLogoUrl    String?
+  brief           String
+  objectives      String   @default("[]")
+  targetAudience  String
+  targetCountries String   @default("[]")
+  targetNiches    String   @default("[]")
+  platforms       String   @default("[]")
+  budget          Float
+  budgetCurrency  String   @default("USD")
+  startDate       DateTime
+  endDate         DateTime
+  status          String   @default("DRAFT")
+  internalNotes   String?
+  clientContactName  String?
+  clientContactEmail String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creators  CampaignCreator[]
+  proposals Proposal[]
+}
+
+model CampaignCreator {
+  id                   String   @id @default(cuid())
+  campaignId           String
+  creatorId            String
+  selectedDeliverables String   @default("[]")
+  totalCreatorRate     Float    @default(0)
+  totalClientRate      Float    @default(0)
+  totalCommission      Float    @default(0)
+  confirmationStatus   String   @default("PENDING")
+  contentStatus        String   @default("NOT_STARTED")
+  contentDeadline      DateTime?
+  liveUrl              String?
+  performanceNotes     String?
+  internalNotes        String?
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  creator  Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, creatorId])
+}
+
+model CreatorResearch {
+  id                      String   @id @default(cuid())
+  creatorId               String   @unique
+  audiencePersona         String?
+  toneAnalysis            String?
+  contentPillars          String?
+  contentIdeas            String?
+  brandPartnershipStrategy String?
+  moodboardConcepts       String?
+  campaignActivations     String?
+  generatedAt             DateTime @default(now())
+
+  creator Creator @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+}
+
+model Proposal {
+  id          String   @id @default(cuid())
+  campaignId  String
+  title       String
+  preparedBy  String   @default("Lumos Team")
+  clientName  String
+  coverNote   String
+  status      String   @default("DRAFT")
+  pdfUrl      String?
+  createdAt   DateTime @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
