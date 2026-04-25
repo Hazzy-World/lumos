@@ -111,6 +111,36 @@ async function lookupYouTube(handle: string): Promise<LookupResult> {
   }
 }
 
+async function scrapeOgImage(platform: string, handle: string): Promise<string | null> {
+  const cleanHandle = handle.replace(/^@/, "")
+  const urls: Record<string, string> = {
+    Instagram: `https://www.instagram.com/${cleanHandle}/`,
+    TikTok:    `https://www.tiktok.com/@${cleanHandle}`,
+    Twitch:    `https://www.twitch.tv/${cleanHandle}`,
+    Kick:      `https://kick.com/${cleanHandle}`,
+    Snapchat:  `https://www.snapchat.com/add/${cleanHandle}`,
+  }
+  const url = urls[platform]
+  if (!url) return null
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml",
+      },
+      signal: AbortSignal.timeout(6000),
+    })
+    if (!res.ok) return null
+    const html = await res.text()
+    const match =
+      html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i)
+    return match?.[1] ?? null
+  } catch {
+    return null
+  }
+}
+
 const LOOKUP_SYSTEM = `You are a social media profile researcher with access to web search.
 Search the web to find the creator's actual profile data.
 IMPORTANT: Your entire response must be a single valid JSON object starting with { and ending with }.
@@ -162,6 +192,10 @@ Use 0 for any unknown numbers. Leave profileImageUrl as empty string.`
   const avgShares = Number(parsed.avgShares) || 0
   const avgViews = Number(parsed.avgViews) || 0
 
+  // Try og:image scrape first, then fall back to whatever AI returned
+  const scrapedImage = await scrapeOgImage(platform, cleanHandle)
+  const profileImageUrl = scrapedImage || String(parsed.profileImageUrl || "")
+
   return {
     name: String(parsed.name || cleanHandle),
     bio: String(parsed.bio || ""),
@@ -173,7 +207,7 @@ Use 0 for any unknown numbers. Leave profileImageUrl as empty string.`
     avgShares,
     avgViews,
     country: String(parsed.country || ""),
-    profileImageUrl: String(parsed.profileImageUrl || ""),
+    profileImageUrl,
     sources: {
       name: parsed.name ? "ai" : "none",
       bio: parsed.bio ? "ai" : "none",
@@ -182,7 +216,7 @@ Use 0 for any unknown numbers. Leave profileImageUrl as empty string.`
       avgComments: avgComments > 0 ? "ai" : "none",
       avgViews: avgViews > 0 ? "ai" : "none",
       country: parsed.country ? "ai" : "none",
-      profileImageUrl: "none",
+      profileImageUrl: profileImageUrl ? "api" : "none",
     },
   }
 }

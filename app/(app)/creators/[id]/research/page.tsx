@@ -1075,7 +1075,7 @@ export default function CreatorResearchPage() {
 
       {/* Creator header */}
       <div className="bg-[#120820] border border-[rgba(245,230,66,0.15)] rounded-xl p-5 mb-6 flex items-center gap-4">
-        <img src={creator.profileImageUrl} alt={creator.name} className="w-16 h-16 rounded-full object-cover border border-[rgba(245,230,66,0.15)]" />
+        <img src={creator.profileImageUrl} alt={creator.name} className="w-16 h-16 rounded-full object-cover border border-[rgba(245,230,66,0.15)]" onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(creator.name)}&background=1A0A2E&color=F5E642&size=400` }} />
         <div>
           <h2 className="font-cinzel font-bold text-xl text-white" dir="auto">{creator.name}</h2>
           {creator.nameAr && <p className="text-[#A89BC2] text-sm" dir="rtl">{creator.nameAr}</p>}

@@ -75,7 +75,7 @@ function CreatorTable({ creators }: { creators: Creator[] }) {
               >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <img src={creator.profileImageUrl} alt={creator.name} className="w-8 h-8 rounded-full object-cover border border-[rgba(245,230,66,0.15)]" />
+                    <img src={creator.profileImageUrl} alt={creator.name} className="w-8 h-8 rounded-full object-cover border border-[rgba(245,230,66,0.15)]" onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(creator.name)}&background=1A0A2E&color=F5E642&size=400` }} />
                     <div>
                       <p className="font-medium text-white text-sm" dir="auto">{creator.name}</p>
                       {creator.nameAr && <p className="text-[10px] text-[#A89BC2]" dir="rtl">{creator.nameAr}</p>}

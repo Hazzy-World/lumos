@@ -78,6 +78,9 @@ export default function CreatorCard({ creator }: { creator: Creator }) {
             src={creator.profileImageUrl}
             alt={creator.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(creator.name)}&background=1A0A2E&color=F5E642&size=400`
+            }}
           />
           {/* Gold-to-dark gradient overlay */}
           <div

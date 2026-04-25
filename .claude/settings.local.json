@@ -79,7 +79,15 @@
       "Bash(git commit *)",
       "Bash(git push *)",
       "Bash(npm uninstall *)",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(git -C /Users/hazimq/flamenzi-os status)",
+      "Bash(git -C /Users/hazimq/flamenzi-os log --oneline -5)",
+      "Bash(git -C /Users/hazimq/flamenzi-os add package.json)",
+      "Bash(git -C /Users/hazimq/flamenzi-os commit -m \"Add postinstall prisma generate for Vercel\")",
+      "Bash(git -C /Users/hazimq/flamenzi-os push origin main)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_wr4anOQb3zmE@ep-lingering-math-alv7kf9b.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" npx prisma migrate deploy)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_wr4anOQb3zmE@ep-lingering-math-alv7kf9b.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" npx prisma migrate dev --name init --skip-seed)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_wr4anOQb3zmE@ep-lingering-math-alv7kf9b.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" npx prisma db seed)"
     ]
   }
 }

@@ -389,7 +389,7 @@ export default function DashboardPage() {
                     onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(245,230,66,0.2)")}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(245,230,66,0.07)")}
                   >
-                    <img src={c.profileImageUrl} alt={c.name} className="w-9 h-9 rounded-full object-cover flex-shrink-0" style={{ border: "1px solid rgba(245,230,66,0.2)" }} />
+                    <img src={c.profileImageUrl} alt={c.name} className="w-9 h-9 rounded-full object-cover flex-shrink-0" style={{ border: "1px solid rgba(245,230,66,0.2)" }} onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=1A0A2E&color=F5E642&size=400` }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-cinzel font-medium text-white truncate" dir="auto">{c.name}</p>
                       <p className="text-xs text-[#A89BC2] font-inter">{c.country}{c.niches[0] ? ` · ${c.niches[0]}` : ""}</p>
@@ -416,7 +416,7 @@ export default function DashboardPage() {
                   onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                 >
                   <span className="text-[#A89BC2] text-xs font-cinzel w-6 flex-shrink-0">#{i + 1}</span>
-                  <img src={c.profileImageUrl} alt={c.name} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  <img src={c.profileImageUrl} alt={c.name} className="w-8 h-8 rounded-full object-cover flex-shrink-0" onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=1A0A2E&color=F5E642&size=400` }} />
                   <p className="flex-1 text-sm font-cinzel font-medium text-white min-w-0 truncate">{c.name}</p>
                   <TierBadge tier={c.tier} />
                   <div className="w-32 h-1.5 rounded-full overflow-hidden hidden sm:block" style={{ background: "rgba(245,230,66,0.1)" }}>

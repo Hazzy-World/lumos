@@ -248,6 +248,7 @@ export default function CreatorProfilePage() {
               src={creator.profileImageUrl}
               alt={creator.name}
               className="w-24 h-24 rounded-full object-cover border-2 border-[rgba(245,230,66,0.15)]"
+              onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(creator.name)}&background=1A0A2E&color=F5E642&size=400` }}
             />
             {creator.managedByFlamenzi && (
               <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#F5E642] rounded-full flex items-center justify-center border-2 border-[#120820]">
